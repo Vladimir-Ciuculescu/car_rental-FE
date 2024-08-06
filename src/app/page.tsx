@@ -1,7 +1,20 @@
-import { redirect } from "next/navigation";
+// app/page.tsx or app/page.js
+"use client"; // Ensure this file is treated as a client component
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const HomePage = () => {
-  redirect("/login");
+  const router = useRouter();
+  const user = localStorage.getItem("user");
+
+  if (!user) {
+    router.push("/login");
+  } else {
+    router.push("/dashboard");
+  }
+
+  return null;
 };
 
 export default HomePage;

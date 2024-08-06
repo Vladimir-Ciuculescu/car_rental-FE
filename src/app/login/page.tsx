@@ -29,6 +29,7 @@ type FormData = z.infer<typeof schema>;
 const Login = () => {
   const {
     register,
+
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
@@ -42,7 +43,9 @@ const Login = () => {
 
   const handleLogin = async (data: FormData) => {
     try {
-      await loginUserApi(data.email, data.password);
+      const user = await loginUserApi(data.email, data.password);
+
+      localStorage.setItem("user", JSON.stringify(user));
       router.push("/dashboard"); // Navigate to the dashboard on successful login
     } catch (error: any) {
       setMessage(error.message);

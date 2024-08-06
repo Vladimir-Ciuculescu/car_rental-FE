@@ -24,13 +24,13 @@ const NavBar = () => {
           <span className="sr-only">Acme Inc</span>
         </Link>
         <Link
-          href="#"
+          href="/dashboard/available-cars"
           className="text-foreground transition-colors hover:text-foreground whitespace-nowrap"
         >
-          Availablea cars
+          Available cars
         </Link>
         <Link
-          href="#"
+          href="/dashboard/list-a-car"
           className="text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap"
         >
           List a car
@@ -65,16 +65,7 @@ const NavBar = () => {
         </SheetContent>
       </Sheet>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            />
-          </div>
-        </form>
+        <form className="ml-auto flex-1 sm:flex-initial"></form>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
