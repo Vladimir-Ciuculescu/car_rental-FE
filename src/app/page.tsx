@@ -11,7 +11,7 @@ const HomePage = () => {
   if (!user) {
     router.push("/login");
   } else {
-    router.push("/dashboard");
+    router.push("/dashboard/available-cars");
   }
 
   return null;

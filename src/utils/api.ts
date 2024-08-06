@@ -42,6 +42,7 @@ export interface CarPayload {
   year: number;
   cost: number;
   description?: string;
+  userId: number;
 }
 
 export const listACarApi = async (payload: CarPayload) => {
@@ -59,4 +60,20 @@ export const uploadImageApi = async (formData: FormData) => {
   });
 
   return data;
+};
+
+export const getAvailableCarsApi = async (payload: {
+  brand: string;
+  model: string;
+}) => {
+  try {
+    const { data } = await axios.get(`${API_URL}/car/get-available-cars`, {
+      params: payload,
+    });
+    return data;
+  } catch (error: any) {
+    const message = error.response?.data?.message;
+
+    throw new Error(message);
+  }
 };

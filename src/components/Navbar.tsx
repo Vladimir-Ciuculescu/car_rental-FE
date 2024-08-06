@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +13,25 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Car, CircleUser, Menu, Package2, Search } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { usePathname, useRouter } from "next/navigation";
 
 const NavBar = () => {
+  const router = useRouter();
+  // const { pathname } = router;
+
+  // console.log(pathname);
+  const pathname = usePathname();
+
+  const activeLinkClass =
+    "text-foreground transition-colors hover:text-foreground whitespace-nowrap";
+  const inactiveLinkClass =
+    "text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap";
+
+  const logOut = () => {
+    router.push("/login");
+    localStorage.clear();
+  };
+
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -25,13 +44,21 @@ const NavBar = () => {
         </Link>
         <Link
           href="/dashboard/available-cars"
-          className="text-foreground transition-colors hover:text-foreground whitespace-nowrap"
+          className={`${
+            pathname === "/dashboard/available-cars"
+              ? activeLinkClass
+              : inactiveLinkClass
+          }`}
         >
           Available cars
         </Link>
         <Link
           href="/dashboard/list-a-car"
-          className="text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap"
+          className={`${
+            pathname === "/dashboard/list-a-car"
+              ? activeLinkClass
+              : inactiveLinkClass
+          }`}
         >
           List a car
         </Link>
@@ -74,7 +101,7 @@ const NavBar = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={logOut}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

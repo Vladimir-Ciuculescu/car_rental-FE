@@ -42,62 +42,7 @@ import {
 } from "@/utils/api";
 import { Description } from "@radix-ui/react-dialog";
 import { register } from "module";
-
-const brands = ["Toyota", "Audi", "Bmw"];
-
-const toyotaModels = [
-  "Camry",
-  "Corolla",
-  "Highlander",
-  "Prius",
-  "RAV4",
-  "Tacoma",
-  "Tundra",
-  "Yaris",
-  "4Runner",
-  "Avalon",
-];
-
-const bmwModels = [
-  "1 Series",
-  "2 Series",
-  "3 Series",
-  "4 Series",
-  "5 Series",
-  "6 Series",
-  "7 Series",
-  "8 Series",
-  "X1",
-  "X2",
-  "X3",
-  "X4",
-  "X5",
-  "X6",
-  "X7",
-  "Z4",
-];
-
-const audiModels = [
-  "A1",
-  "A3",
-  "A4",
-  "A5",
-  "A6",
-  "A7",
-  "A8",
-  "Q2",
-  "Q3",
-  "Q5",
-  "Q7",
-  "Q8",
-  "TT",
-  "R8",
-];
-
-const years = [
-  1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
-  2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024,
-];
+import { audiModels, bmwModels, brands, toyotaModels, years } from "@/consts";
 
 const schema = z.object({
   brand: z.string().min(1, "Brand is required"),
@@ -166,6 +111,11 @@ const Register = () => {
   };
 
   const onSubmit = async (data: zodData) => {
+    const user: any = localStorage.getItem("user");
+    const parsedUser = JSON.parse(user!);
+
+    console.log(data);
+
     const formData = new FormData();
     if (data.image) {
       formData.append(
@@ -184,10 +134,10 @@ const Register = () => {
         year: parseInt(data.year),
         cost: parseInt(data.cost),
         description: data.description,
+        userId: parsedUser!.id,
       };
       await listACarApi(payload);
 
-      // Reset the form values
       form.reset({
         brand: "",
         model: "",
@@ -195,9 +145,9 @@ const Register = () => {
         cost: "",
         description: "",
       });
-      setPreview(null); // Clear the image preview
-      setCarModels([]); // Clear the car models
-      setModelInputDisabled(true); // Disable the model input
+      setPreview(null);
+      setCarModels([]);
+      setModelInputDisabled(true);
       setMessage("Car successfully listed!");
     } catch (error) {
       console.error("Error listing car:", error);
@@ -357,9 +307,12 @@ const Register = () => {
                       <FormLabel>Cost</FormLabel>
                       <FormControl>
                         <Input
-                          type="text"
+                          onChange={(value) => {
+                            field.onChange(value);
+                          }}
+                          type="number"
                           placeholder="Enter cost"
-                          {...field}
+                          value={field.value}
                         />
                       </FormControl>
                       <FormMessage />

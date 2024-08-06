@@ -46,10 +46,10 @@ const Login = () => {
       const user = await loginUserApi(data.email, data.password);
 
       localStorage.setItem("user", JSON.stringify(user));
-      router.push("/dashboard"); // Navigate to the dashboard on successful login
+      router.push("/dashboard/available-cars");
     } catch (error: any) {
       setMessage(error.message);
-      setIsDialogOpen(true); // Show error dialog
+      setIsDialogOpen(true);
     }
   };
 
