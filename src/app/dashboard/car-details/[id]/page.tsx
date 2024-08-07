@@ -1,10 +1,14 @@
 "use client";
 
-import { Copy, CreditCard } from "lucide-react";
+import { Copy } from "lucide-react";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getCarDetailsApi } from "@/utils/api";
+import {
+  addCarRequestApi,
+  getCarDetailsApi,
+  RequestPayload,
+} from "@/utils/api";
 import { AvailableCar } from "@/types/car.types";
 import Image from "next/image";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,13 +37,14 @@ import {
 } from "@/components/ui/popover";
 
 const CarDetails = () => {
-  const { id }: { id: string } = useParams();
+  const { id: carId }: { id: string } = useParams();
   const [details, setDetails] = useState<AvailableCar>();
   const [totalCost, setTotalCost] = useState<number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const getCarDetails = async () => {
-      const data = await getCarDetailsApi(parseInt(id));
+      const data = await getCarDetailsApi(parseInt(carId));
       setDetails(data);
     };
 
@@ -50,7 +55,7 @@ const CarDetails = () => {
     return details?.image;
   };
 
-  const FormSchema = z.object({
+  const FormData = z.object({
     startDate: z.date({
       required_error: "Start date required!",
     }),
@@ -59,8 +64,10 @@ const CarDetails = () => {
     }),
   });
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  type zodData = z.infer<typeof FormData>;
+
+  const form = useForm<zodData>({
+    resolver: zodResolver(FormData),
   });
 
   const startDate = form.watch("startDate");
@@ -77,6 +84,26 @@ const CarDetails = () => {
       setTotalCost(null);
     }
   }, [startDate, endDate]);
+
+  const onSubmit = async (data: zodData) => {
+    const user: any = localStorage.getItem("user");
+    const parsedUser = JSON.parse(user!);
+
+    const payload: RequestPayload = {
+      startDate: data.startDate,
+      endDate: data.endDate,
+      totalPrice: totalCost!,
+      carId: parseInt(carId),
+      userId: parsedUser.id,
+    };
+
+    try {
+      await addCarRequestApi(payload);
+      router.push("/dashboard/available-cars");
+    } catch (error) {
+      console.error("Error listing car:", error);
+    }
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -151,7 +178,10 @@ const CarDetails = () => {
               </CardHeader>
               <CardContent className="p-6 text-sm">
                 <Form {...form}>
-                  <form className="space-y-8">
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                  >
                     <div className="flex flex-row gap-3">
                       <span className="text-muted-foreground">
                         Cost per hour
@@ -254,7 +284,7 @@ const CarDetails = () => {
                       </div>
                     )}
                     <Button type="submit" disabled={!startDate || !endDate}>
-                      Send request
+                      Rent
                     </Button>
                   </form>
                 </Form>

@@ -1,5 +1,4 @@
 "use client";
-import { PanelLeft, Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
@@ -12,9 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { Input } from "@/components/ui/input";
-
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import {
   Table,
   TableBody,
@@ -32,7 +28,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -40,6 +35,9 @@ import { audiModels, bmwModels, brands, toyotaModels } from "@/consts";
 import { useRouter } from "next/navigation";
 
 const AvailableCars = () => {
+  const user: any = localStorage.getItem("user");
+  const parsedUser = JSON.parse(user!);
+
   const [cars, setCars] = useState<AvailableCar[]>([]);
 
   const router = useRouter();
@@ -47,17 +45,15 @@ const AvailableCars = () => {
   const [models, setModels] = useState<string[]>();
   const [modelInputDisabled, setModelInputDisabled] = useState(true);
   const [model, setModel] = useState("");
-  const [keyModel, setKeyModel] = useState(+new Date());
 
   const [brand, setBrand] = useState("");
-  const [keyBrand, setKeyBrand] = useState(+new Date());
 
   useEffect(() => {
     getAvailableCars();
   }, [brand, model]);
 
   const getAvailableCars = async () => {
-    let payload: any = {};
+    let payload: any = { ownerId: parsedUser.id };
 
     if (brand) {
       payload.brand = brand;
@@ -102,11 +98,7 @@ const AvailableCars = () => {
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
             <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4"></div>
             <div className="flex flex-row gap-4">
-              <Select
-                key={keyBrand}
-                value={brand}
-                onValueChange={(e) => handleBrandChange(e)}
-              >
+              <Select value={brand} onValueChange={(e) => handleBrandChange(e)}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Select a brand" />
                 </SelectTrigger>
@@ -125,7 +117,6 @@ const AvailableCars = () => {
                     variant="secondary"
                     size="sm"
                     onClick={(e) => {
-                      setKeyBrand(+new Date());
                       setBrand("");
                     }}
                   >
@@ -134,7 +125,6 @@ const AvailableCars = () => {
                 </SelectContent>
               </Select>
               <Select
-                key={keyModel}
                 value={model}
                 onValueChange={(e) => setModel(e)}
                 disabled={modelInputDisabled}
@@ -158,7 +148,6 @@ const AvailableCars = () => {
                     variant="secondary"
                     size="sm"
                     onClick={(e) => {
-                      setKeyModel(+new Date());
                       setModel("");
                     }}
                   >

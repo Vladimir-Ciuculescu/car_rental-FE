@@ -88,3 +88,59 @@ export const getCarDetailsApi = async (carId: number) => {
     throw new Error(message);
   }
 };
+
+export interface RequestPayload {
+  startDate: Date;
+  endDate: Date;
+  totalPrice: number;
+  carId: number;
+  userId: number;
+}
+
+export const addCarRequestApi = async (data: RequestPayload) => {
+  try {
+    await axios.post(`${API_URL}/request/add-car-request`, data);
+  } catch (error: any) {
+    const message = error.response?.data?.message;
+
+    throw new Error(message);
+  }
+};
+
+export const getRequestsForYourCarsApi = async (userId: number) => {
+  try {
+    const { data } = await axios.get(
+      `${API_URL}/request/requests-your-cars/${userId}`
+    );
+    return data;
+  } catch (error: any) {
+    const message = error.response?.data?.message;
+
+    throw new Error(message);
+  }
+};
+
+export const declineRequestApi = async (requestId: number) => {
+  try {
+    await axios.post(`${API_URL}/request/decline-request/${requestId}`);
+  } catch (error: any) {
+    const message = error.response?.data?.message;
+
+    throw new Error(message);
+  }
+};
+
+export interface AcceptRequestPayload {
+  carId: number;
+  requestId: Number;
+}
+
+export const acceptRequestApi = async (body: AcceptRequestPayload) => {
+  try {
+    await axios.post(`${API_URL}/request/accept-request`, body);
+  } catch (error: any) {
+    const message = error.response?.data?.message;
+
+    throw new Error(message);
+  }
+};

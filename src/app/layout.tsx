@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 
 import "./globals.css";
 import { ThemeProvider } from "./ThemeProvider";
+import { useEffect } from "react";
+import NavBar from "@/components/Navbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -34,6 +36,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NavBar />
+
           {children}
         </ThemeProvider>
       </body>

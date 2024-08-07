@@ -10,16 +10,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Car, CircleUser, Menu, Package2, Search } from "lucide-react";
+import { Car, CircleUser, Menu, Package2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import { Separator } from "./ui/separator";
 
 const NavBar = () => {
+  const user: any = localStorage.getItem("user");
+  const parsedUser = JSON.parse(user!);
   const router = useRouter();
-  // const { pathname } = router;
 
-  // console.log(pathname);
   const pathname = usePathname();
 
   const activeLinkClass =
@@ -31,6 +32,10 @@ const NavBar = () => {
     router.push("/login");
     localStorage.clear();
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -62,6 +67,16 @@ const NavBar = () => {
         >
           List a car
         </Link>
+        <Link
+          href="/dashboard/requests"
+          className={`${
+            pathname === "/dashboard/requests"
+              ? activeLinkClass
+              : inactiveLinkClass
+          }`}
+        >
+          Requests
+        </Link>
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -79,11 +94,14 @@ const NavBar = () => {
               <Package2 className="h-6 w-6" />
               <span className="sr-only">Acme Inc</span>
             </Link>
-            <Link href="#" className="hover:text-foreground">
+            <Link
+              href="/dashboard/available-cars"
+              className="hover:text-foreground"
+            >
               Available Cars
             </Link>
             <Link
-              href="#"
+              href="/dashboard/list-a-car"
               className="text-muted-foreground hover:text-foreground"
             >
               List a car
@@ -101,6 +119,10 @@ const NavBar = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              {parsedUser.firstName + " " + parsedUser.lastName}
+            </DropdownMenuItem>
+            <Separator />
             <DropdownMenuItem onClick={logOut}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
