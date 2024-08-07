@@ -108,110 +108,121 @@ const Requests = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Car ID</TableHead>
-                      <TableHead>From user</TableHead>
+                {requests.length ? (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Car ID</TableHead>
+                        <TableHead>From user</TableHead>
 
-                      <TableHead>Image</TableHead>
+                        <TableHead>Image</TableHead>
 
-                      <TableHead>Brand</TableHead>
-                      <TableHead>Model</TableHead>
-                      <TableHead>Start Date</TableHead>
+                        <TableHead>Brand</TableHead>
+                        <TableHead>Model</TableHead>
+                        <TableHead>Start Date</TableHead>
 
-                      <TableHead>End Date</TableHead>
-                      <TableHead>Total price</TableHead>
+                        <TableHead>End Date</TableHead>
+                        <TableHead>Total price</TableHead>
 
-                      <TableHead>Status</TableHead>
-                      <TableHead>Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {requests.map((request, key) => {
-                      return (
-                        <TableRow
-                          key={key}
-                          className={
-                            request.status !== "DECLINED"
-                              ? "cursor-pointer"
-                              : ""
-                          }
-                        >
-                          <TableCell className="font-medium">
-                            {request.car.id}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {request.user.firstName +
-                              " " +
-                              request.user.lastName}
-                          </TableCell>
-                          <TableCell className="hidden sm:table-cell">
-                            <Image
-                              alt="Product image"
-                              className="aspect-square rounded-md object-cover"
-                              height="64"
-                              loader={() => request.car.image}
-                              src={request.car.image}
-                              width="64"
-                            />
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {request.car.brand}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {request.car.model}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {formatDate(request.startDate)}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {formatDate(request.endDate)}
-                          </TableCell>
-                          <TableCell align="center" className="font-medium">
-                            <Badge variant="outline">
-                              {request.totalPrice} $
-                            </Badge>
-                          </TableCell>
-                          <TableCell align="center" className="font-medium">
-                            <Badge variant="outline">{request.status}</Badge>
-                          </TableCell>
-                          <TableCell className="font-medium ">
-                            <div className=" flex gap-5">
-                              <Button
-                                onClick={() =>
-                                  acceptRequest(request.car.id, request.id)
-                                }
-                                disabled={
-                                  request.status === "DECLINED" ||
-                                  request.status === "ACCEPTED"
-                                }
-                              >
-                                {request.status === "PENDING" ||
-                                request.status === "DECLINED"
-                                  ? "Approve"
-                                  : "Aprroved"}
-                              </Button>
-                              <Button
-                                disabled={
-                                  request.status === "DECLINED" ||
-                                  request.status === "ACCEPTED"
-                                }
-                                onClick={() => declineRequest(request.id)}
-                                variant="destructive"
-                              >
-                                {request.status === "PENDING" ||
-                                request.status === "DECLINED"
-                                  ? "Decline"
-                                  : "Declined"}
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {requests.map((request, key) => {
+                        return (
+                          <TableRow
+                            key={key}
+                            className={
+                              request.status !== "DECLINED"
+                                ? "cursor-pointer"
+                                : ""
+                            }
+                          >
+                            <TableCell className="font-medium">
+                              {request.car.id}
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {request.user.firstName +
+                                " " +
+                                request.user.lastName}
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell">
+                              <Image
+                                alt="Product image"
+                                className="aspect-square rounded-md object-cover"
+                                height="64"
+                                loader={() => request.car.image}
+                                src={request.car.image}
+                                width="64"
+                              />
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {request.car.brand}
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {request.car.model}
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {formatDate(request.startDate)}
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {formatDate(request.endDate)}
+                            </TableCell>
+                            <TableCell align="center" className="font-medium">
+                              <Badge variant="outline">
+                                {request.totalPrice} $
+                              </Badge>
+                            </TableCell>
+                            <TableCell align="center" className="font-medium">
+                              <Badge variant="outline">{request.status}</Badge>
+                            </TableCell>
+                            <TableCell className="font-medium ">
+                              <div className=" flex gap-5">
+                                <Button
+                                  onClick={() =>
+                                    acceptRequest(request.car.id, request.id)
+                                  }
+                                  disabled={
+                                    request.status === "DECLINED" ||
+                                    request.status === "ACCEPTED"
+                                  }
+                                >
+                                  {request.status === "PENDING" ||
+                                  request.status === "DECLINED"
+                                    ? "Approve"
+                                    : "Aprroved"}
+                                </Button>
+                                <Button
+                                  disabled={
+                                    request.status === "DECLINED" ||
+                                    request.status === "ACCEPTED"
+                                  }
+                                  onClick={() => declineRequest(request.id)}
+                                  variant="destructive"
+                                >
+                                  {request.status === "PENDING" ||
+                                  request.status === "DECLINED"
+                                    ? "Decline"
+                                    : "Declined"}
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                ) : (
+                  <div className="flex flex-col items-center gap-1 text-center">
+                    <h3 className="text-2xl font-bold tracking-tight">
+                      Currently you have no rent requests for your cars
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      When someone will make a request, you will see it here
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

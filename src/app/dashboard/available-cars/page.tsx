@@ -164,60 +164,73 @@ const AvailableCars = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Image</TableHead>
+                {cars.length ? (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Image</TableHead>
 
-                      <TableHead>Brand</TableHead>
-                      <TableHead>Model</TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Year of production
-                      </TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Price per hour
-                      </TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        description
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {cars.map((car, key) => {
-                      return (
-                        <TableRow
-                          key={key}
-                          className="cursor-pointer"
-                          onClick={() => goToCarDetails(car)}
-                        >
-                          <TableCell className="hidden sm:table-cell">
-                            <Image
-                              alt="Product image"
-                              className="aspect-square rounded-md object-cover"
-                              height="64"
-                              loader={() => car.image}
-                              src={car.image}
-                              width="64"
-                            />
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {car.brand}
-                          </TableCell>
-                          <TableCell className="font-medium">
-                            {car.model}
-                          </TableCell>
-                          <TableCell>{car.yearOfProduction}</TableCell>
-                          <TableCell className="hidden md:table-cell">
-                            <Badge variant="outline">{car.costPerHour} $</Badge>
-                          </TableCell>
-                          <TableCell className="hidden md:table-cell">
-                            {car.description}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
+                        <TableHead>Brand</TableHead>
+                        <TableHead>Model</TableHead>
+                        <TableHead className="hidden md:table-cell">
+                          Year of production
+                        </TableHead>
+                        <TableHead className="hidden md:table-cell">
+                          Price per hour
+                        </TableHead>
+                        <TableHead className="hidden md:table-cell">
+                          description
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {cars.map((car, key) => {
+                        return (
+                          <TableRow
+                            key={key}
+                            className="cursor-pointer"
+                            onClick={() => goToCarDetails(car)}
+                          >
+                            <TableCell className="hidden sm:table-cell">
+                              <Image
+                                alt="Product image"
+                                className="aspect-square rounded-md object-cover"
+                                height="64"
+                                loader={() => car.image}
+                                src={car.image}
+                                width="64"
+                              />
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {car.brand}
+                            </TableCell>
+                            <TableCell className="font-medium">
+                              {car.model}
+                            </TableCell>
+                            <TableCell>{car.yearOfProduction}</TableCell>
+                            <TableCell className="hidden md:table-cell">
+                              <Badge variant="outline">
+                                {car.costPerHour} $
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                              {car.description}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                ) : (
+                  <div className="flex flex-col items-center gap-1 text-center">
+                    <h3 className="text-2xl font-bold tracking-tight">
+                      There are not available cars at the moment
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Please come back later
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

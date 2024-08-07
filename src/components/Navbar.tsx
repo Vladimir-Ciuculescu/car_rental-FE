@@ -4,17 +4,15 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Car, CircleUser, Menu, Package2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { Separator } from "./ui/separator";
+import { ModeToggle } from "@/app/ModeToggle";
 
 const NavBar = () => {
   const user: any = localStorage.getItem("user");
@@ -96,21 +94,41 @@ const NavBar = () => {
             </Link>
             <Link
               href="/dashboard/available-cars"
-              className="hover:text-foreground"
+              className={`${
+                pathname === "/dashboard/available-cars"
+                  ? activeLinkClass
+                  : inactiveLinkClass
+              }`}
             >
               Available Cars
             </Link>
             <Link
               href="/dashboard/list-a-car"
-              className="text-muted-foreground hover:text-foreground"
+              className={`${
+                pathname === "/dashboard/list-a-car"
+                  ? activeLinkClass
+                  : inactiveLinkClass
+              }`}
             >
               List a car
+            </Link>
+            <Link
+              href="/dashboard/requests"
+              className={`${
+                pathname === "/dashboard/requests"
+                  ? activeLinkClass
+                  : inactiveLinkClass
+              }`}
+            >
+              Requests
             </Link>
           </nav>
         </SheetContent>
       </Sheet>
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <form className="ml-auto flex-1 sm:flex-initial"></form>
+        <ModeToggle />
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">

@@ -1,47 +1,28 @@
 "use client";
 
-import { ControllerRenderProps, useForm, Controller } from "react-hook-form";
+import { ControllerRenderProps, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import Link from "next/link";
-import {
-  CarPayload,
-  listACarApi,
-  registerUserApi,
-  uploadImageApi,
-} from "@/utils/api";
-import { Description } from "@radix-ui/react-dialog";
-import { register } from "module";
+import { CarPayload, listACarApi, uploadImageApi } from "@/utils/api";
 import { audiModels, bmwModels, brands, toyotaModels, years } from "@/consts";
 
 const schema = z.object({
