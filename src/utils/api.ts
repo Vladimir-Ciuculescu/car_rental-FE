@@ -77,3 +77,14 @@ export const getAvailableCarsApi = async (payload: {
     throw new Error(message);
   }
 };
+
+export const getCarDetailsApi = async (carId: number) => {
+  try {
+    const { data } = await axios.get(`${API_URL}/car/car-details/${carId}`);
+    return data;
+  } catch (error: any) {
+    const message = error.response?.data?.message;
+
+    throw new Error(message);
+  }
+};

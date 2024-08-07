@@ -37,9 +37,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { audiModels, bmwModels, brands, toyotaModels } from "@/consts";
+import { useRouter } from "next/navigation";
 
 const AvailableCars = () => {
   const [cars, setCars] = useState<AvailableCar[]>([]);
+
+  const router = useRouter();
 
   const [models, setModels] = useState<string[]>();
   const [modelInputDisabled, setModelInputDisabled] = useState(true);
@@ -88,10 +91,9 @@ const AvailableCars = () => {
     }
   };
 
-  // useEffect(() => {
-
-  //   getAvailableCars({ brand, model });
-  // }, [brand, model]);
+  const goToCarDetails = (car: AvailableCar) => {
+    router.push(`/dashboard/car-details/${car.id}`);
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -194,7 +196,11 @@ const AvailableCars = () => {
                   <TableBody>
                     {cars.map((car, key) => {
                       return (
-                        <TableRow key={key}>
+                        <TableRow
+                          key={key}
+                          className="cursor-pointer"
+                          onClick={() => goToCarDetails(car)}
+                        >
                           <TableCell className="hidden sm:table-cell">
                             <Image
                               alt="Product image"
@@ -211,10 +217,7 @@ const AvailableCars = () => {
                           <TableCell className="font-medium">
                             {car.model}
                           </TableCell>
-                          <TableCell>
-                            {/* <Badge variant="outline">Draft</Badge> */}
-                            {car.yearOfProduction}
-                          </TableCell>
+                          <TableCell>{car.yearOfProduction}</TableCell>
                           <TableCell className="hidden md:table-cell">
                             <Badge variant="outline">{car.costPerHour} $</Badge>
                           </TableCell>

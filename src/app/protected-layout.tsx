@@ -1,5 +1,5 @@
 import NavBar from "@/components/Navbar";
-import "../app/globals.css"; // Import global styles
+import "../app/globals.css";
 
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => (
   <html>
